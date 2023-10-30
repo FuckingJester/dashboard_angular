@@ -1,0 +1,41 @@
+<div *ngIf="isLoading; else dataRendered">
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border" role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+</div>
+<ng-template #dataRendered>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Користувач</th>
+        <th scope="col">
+            Дата видачі кредиту
+            <input type="date" [(ngModel)]="issuanceDateFilter" (change)="filterDataByIssuanceDate()">
+        </th>
+        <th scope="col">Повернути кредит</th>
+        <th scope="col">
+            Дата повернення кредиту
+            <input type="date" [(ngModel)]="returnDateFilter" (change)="filterDataByReturnDate()">
+        </th>
+        <th scope="col">Сума кредиту</th>
+        <th scope="col">Відсоток</th>
+      </tr>
+    </thead>
+    <div class="btn btn-success m-2" (click)="filterDataForOverdueLoans()">Просрочені</div>
+    <div class="btn btn-danger  m-2" (click)="reset()">Сброс</div>
+    <tbody>
+      <tr *ngFor="let item of filteredData">
+        <td>{{ item.id }}</td>
+        <td>{{ item.user }}</td>
+        <td>{{ item.issuance_date | date : 'dd.MM.yyyy'}}</td>
+        <td>{{ item.return_date | date : 'dd.MM.yyyy'}}</td>
+        <td>{{ item.actual_return_date | date : 'dd.MM.yyyy'}}</td>
+        <td>{{ item.body }}</td>
+        <td>{{ item.percent }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-template>
